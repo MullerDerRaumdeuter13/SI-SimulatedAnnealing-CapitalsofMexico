@@ -14,10 +14,13 @@ def main():
     size_height = 200
 
     '''set the number of nodes'''
-    population_size = 32
+    population_size = 9
 
     '''generate random list of nodes'''
     nodes = NodeGenerator(size_width, size_height, population_size).generate()
+    #nodes = ([[1, 2], [5, 6] [7, 3], [8, 4]])
+    print(nodes)
+    print("Type: ",type(nodes))
 
     '''run simulated annealing algorithm with 2-opt'''
     sa = SimulatedAnnealing(nodes, temp, alpha, stopping_temp, stopping_iter)
