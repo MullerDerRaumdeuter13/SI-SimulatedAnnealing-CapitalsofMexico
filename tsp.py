@@ -10,14 +10,14 @@ def main():
     stopping_iter = 10000000
 
     '''set the dimensions of the grid'''
-    size_width = 200
-    size_height = 200
+    size_width = 400
+    size_height = 400
 
     '''set the number of nodes'''
     population_size = 9
 
     '''generate random list of nodes'''
-    nodes = NodeGenerator(size_width, size_height, population_size).generate()
+    nodes = NodeGenerator(size_width, size_height).generate()
     #nodes = ([[1, 2], [5, 6] [7, 3], [8, 4]])
     print(nodes)
     print("Type: ",type(nodes))
