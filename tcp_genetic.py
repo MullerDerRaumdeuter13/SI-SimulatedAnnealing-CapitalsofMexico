@@ -1,53 +1,47 @@
+from ctypes import pointer
 import math
 
 #Aqui se anotan las coordenadas X y Y de las capitales 
 '''
 Las capitales iran en el siguiente orden:
-1.La Paz (40, 250)
-2. Mexicalli (90, 130)
+1. Mexicalli (40, 250)
+2. La Paz (90, 130)
 3. Hermosillo (80, 200)
 4. Chihuahua (140, 180)
 5. Saltillo (200, 140)
-6. Monterrey 
-7. Ciudad Victoria
-8. San Luis Potosi
-9. Zacatecas
-10. Durango
-11. Culiacan
-12. Tepic
-13. Guadalajara
-14. Colima
-15. Aguascalientes 
-16. Tlaxcala
-17. Guanajuato
-18. Queretaro
-19. Pachuca
-20. Xalapa
-21. Puebla 
-22. Cuernavaca
-23. CDMX
-24. Toluca
-25. Morelia
-26. Chilpancingo
-27. Oaxaca
-28. Tuxtla Gutierrez
-29. Villahermosa
-30. Campeche
-31. Merida ()
+6. Monterrey (280, 150)
+7. Ciudad Victoria (290, 120)
+8. San Luis Potosi (40, 280)
+9. Zacatecas (90, 130)
+10. Durango (160, 130)
+11. Culiacan (130, 140)
+12. Tepic (150, 90)
+13. Guadalajara (160, 80)
+14. Colima (150, 70)
+15. Aguascalientes (180, 170)
+16. Tlaxcala (230, 70)
+17. Guanajuato (190, 90)
+18. Queretaro (200, 80)
+19. Pachuca (220, 70)
+20. Xalapa (240, 70)
+21. Puebla (230, 60)
+22. Cuernavaca (210, 60)
+23. CDMX (210, 70)
+24. Toluca (200, 65)
+25. Morelia (190, 70)
+26. Chilpancingo (220, 30)
+27. Oaxaca (250, 30)
+28. Tuxtla Gutierrez (290, 20)
+29. Villahermosa (280, 30)
+30. Campeche (320, 60)
+31. Merida (330, 80)
 32. Chetumal (350, 40)
 '''
-cityIndex = {"La Paz": 0, "Mexicalli": 1, "Hermosillo":2, "Chihuahua": 3, "Saltillo": 4, "Monterrey": 5, "Ciudad Victoria": 6, "San Luis Potosi": 7, "Zacatecas": 8,
-             "Durango": 9, "Culiacan": 10, "Tepic":11, "Guadalajara":12, "Colima": 13, "Aguascalientes": 14, "Tlaxcala":15, "Guanajuato": 16, "Queretaro": 17, "Pachuca":18,
-             "Xalapa": 19, "Puebla":20, "Cernavaca":21, "CDMX":22, "Toluca":23, "Morelia":24, "Chilpancingo":25, "Oaxaca":26, "Tuxtla Gutierrez": 27, "Villahermosa": 28,
-             "Campeche":29, "Merida":30, "Chetumal": 31}
-
-cities = [[40, 280], [90, 130], [80, 200], [140, 180], [200, 140], [280, 150], [290, 120], [200, 100], [190, 180], [160, 130], [130, 140], [150, 90], 
-               [190, 80], [180, 70], [180, 170], [230, 70], [190, 90], [200, 80], [220, 70], [240, 70], [230, 60], [210, 70], [200, 80], [190, 70], [220, 30], 
-               [250, 30], [290, 20], [280, 30], [320, 60], [330, 80], [350, 40]] 
- 
-coordinates = [[40, 280], [90, 130], [80, 200], [140, 180], [200, 140], [280, 150], [290, 120], [200, 100], [190, 180], [160, 130], [130, 140], [150, 90], 
-               [190, 80], [180, 70], [180, 170], [230, 70], [190, 90], [200, 80], [220, 70], [240, 70], [230, 60], [210, 70], [200, 80], [190, 70], [220, 30], 
-               [250, 30], [290, 20], [280, 30], [320, 60], [330, 80], [350, 40]] 
+cityIndex = {"Mexicalli": [40, 280], "La Paz": [90, 130], "Hermosillo":[80, 200], "Chihuahua": [140, 180], "Saltillo": [200, 140], "Monterrey": [280, 150], 
+             "Ciudad Victoria": [290, 120], "San Luis Potosi": [200, 100], "Zacatecas": [190, 180], "Durango": [160, 130], "Culiacan": [130, 140], "Tepic": [150, 90], 
+             "Guadalajara":[160, 80], "Colima": [150, 70], "Aguascalientes": [180, 170], "Tlaxcala":[230, 70], "Guanajuato": [190, 90], "Queretaro": [200, 80], "Pachuca":[220, 70],
+             "Xalapa": [240, 70], "Puebla":[230, 60], "Cuernavaca":[210, 60], "CDMX":[210, 70], "Toluca":[200, 65], "Morelia":[190, 70], "Chilpancingo":[220, 30], 
+             "Oaxaca":[250, 30], "Tuxtla Gutierrez": [290, 20], "Villahermosa": [280, 30], "Campeche":[320, 60], "Merida":[330, 80], "Chetumal": [350, 40]}
 
 def calculateDist(a, b):
     return math.sqrt(
@@ -55,27 +49,37 @@ def calculateDist(a, b):
                      + ((a[1] - b[1]) **2))
                     ) 
 
-def geneticAlgorithm(coordinates, cityIndexa, cities):
-    ruta = ""
-    la_paz = coordinates[0]
-    dist_lapaz_mexicalli = calculateDist(la_paz, coordinates[1])
-    dist_mexicalli_hermosillo = calculateDist(coordinates[1], coordinates[2])
-    tramoforzosoA = dist_lapaz_mexicalli + dist_mexicalli_hermosillo
-    coordinates.pop(0)
-    coordinates.pop(0)
-    counter = 2 #Porque ya eliminamos dos, esto sirve para identificar la ruta
+def geneticAlgorithm(cityIndex):
     ruta = "La Paz --> Mexicalli --> Hermosillo"
-    while coordinates:
-        ruta += "-->"
-        start = coordinates[0]
-        if len(coordinates) > 1:
-            dist_list = []
-            for i in range(1, len(coordinates)-1):
-                dist_list.append(calculateDist(start, coordinates[i]))
-            dist = min(dist_list)
+    distanciaForzosa = calculateDist(cityIndex["La Paz"], cityIndex["Mexicalli"]) + calculateDist(cityIndex["Mexicalli"], cityIndex["Hermosillo"])
+    cityIndex.pop("La Paz")
+    cityIndex.pop("Mexicalli")
+    pointer = cityIndex["Hermosillo"]
+    pointerCity = "Hermosillo"
+    while len(cityIndex) > 1:
+        ruta += " --> "
+        cityIndex.pop(pointerCity)
+        dist_list = []
+        keyList = []
+        for key in cityIndex:
+            dist_list.append(calculateDist(pointer, cityIndex[key]))
+            keyList.append(key)
+        minimalDist = min(dist_list)
+        index_ofMinimal = dist_list.index(minimalDist)
+        pointerCity = keyList[index_ofMinimal]
+        pointer = cityIndex[pointerCity]
+        ruta += pointerCity
+        print(ruta)
+    return ruta
+        
+        
+            
+            
+    
 
 def main():
-    geneticAlgorithm(coordinates, cityIndex, cities)
+    ruta = geneticAlgorithm(cityIndex)
+    print("Esta es la ruta a seguir!! \n", ruta)
 
     
     
